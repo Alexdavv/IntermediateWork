@@ -1,0 +1,80 @@
+
+--Mapping source table creation
+DROP TABLE dev_ykorin.avof_allergens;
+DROP TABLE dev_ykorin.avof_allergen_github;
+DROP TABLE dev_ykorin.avof_allergen_2;
+
+CREATE TABLE dev_ykorin.avof_allergens (
+source_code_description_1 varchar(255),
+source_code_description_2 varchar(255),
+source_code_description_3 varchar(255),
+source_code_description_4 varchar(255)
+) WITH OIDS;
+
+--check if everything uploaded correctly and count of uploaded rows
+SELECT  *
+FROM dev_ykorin.avof_allergens;
+
+SELECT  *
+FROM dev_ykorin.avof_allergens where source_code_description_1='' and source_code_description_2='' 
+and  source_code_description_3 =''  and source_code_description_4 ='';
+ 
+CREATE TABLE dev_ykorin.avof_allergen_github AS
+SELECT value from
+(
+select source_code_description_1 as value from dev_ykorin.avof_allergens
+union
+select source_code_description_2 as value from dev_ykorin.avof_allergens
+union
+select source_code_description_3 as value from dev_ykorin.avof_allergens
+union
+select source_code_description_4 as value from dev_ykorin.avof_allergens
+)as al WHERE value!='';
+
+SELECT  *
+FROM dev_ykorin.avof_allergen_github;
+
+SELECT source_code_description_1
+FROM dev_ykorin.avof_allergens where source_code_description_1 NOT IN (SELECT * from dev_ykorin.avof_allergen_github) AND source_code_description_1!='';
+SELECT source_code_description_2
+FROM dev_ykorin.avof_allergens where source_code_description_2 NOT IN (SELECT * from dev_ykorin.avof_allergen_github) AND source_code_description_2!='';
+SELECT source_code_description_3
+FROM dev_ykorin.avof_allergens where source_code_description_3 NOT IN (SELECT * from dev_ykorin.avof_allergen_github) AND source_code_description_3!='';
+SELECT source_code_description_4
+FROM dev_ykorin.avof_allergens where source_code_description_4 NOT IN (SELECT * from dev_ykorin.avof_allergen_github) AND source_code_description_4!='';
+
+
+UPDATE dev_ykorin.avof_allergen_github SET value=lower(value);
+
+CREATE TABLE dev_ykorin.avof_allergen_list2 AS
+SELECT DISTINCT lower (allergen), SUM (counts)
+FROM dev_ypaulenkovich.mmc_allergyfact_source
+WHERE lower (allergen_type) = 'food'
+GROUP BY lower (allergen)
+ORDER BY 2 DESC;
+
+SELECT  * FROM dev_ykorin.avof_allergen_list2;
+
+UPDATE 
+   dev_ykorin.avof_allergen_list2
+SET 
+   lower = REPLACE(lower,'(nic)','')
+WHERE TRUE;
+
+UPDATE 
+   dev_ykorin.avof_allergen_list2
+SET 
+   lower = REPLACE(lower,'*','')
+WHERE TRUE;
+
+SELECT  *
+FROM dev_ykorin.avof_allergen_list2;
+
+UPDATE dev_ykorin.avof_allergen_list2 SET lower=trim(lower);
+UPDATE dev_ykorin.avof_allergen_github SET value=trim(value);
+
+SELECT  lower FROM dev_ykorin.avof_allergen_list2 WHERE lower NOT IN 
+(SELECT lower FROM dev_ykorin.avof_allergen_list2 INNER JOIN dev_ykorin.avof_allergen_github ON dev_ykorin.avof_allergen_list2.lower = dev_ykorin.avof_allergen_github.value);
+
+--SELECT * FROM dev_ykorin.avof_allergen_list2 INNER JOIN dev_ykorin.avof_allergen_github ON dev_ykorin.avof_allergen_list2.lower = dev_ykorin.avof_allergen_github.value;
+
