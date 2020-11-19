@@ -41,10 +41,8 @@ SELECT devv5.FastRecreateSchema(main_schema_name=>'devv5', include_concept_ances
 
 
 --stage tables checks
-DO $_$
-BEGIN
-	PERFORM qa_tests.check_stage_tables ();
-END $_$;
+--should retrieve NULL
+SELECT * FROM qa_tests.check_stage_tables ();
 
 
 
