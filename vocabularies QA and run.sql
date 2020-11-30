@@ -40,8 +40,7 @@ SELECT devv5.FastRecreateSchema(main_schema_name=>'devv5', include_concept_ances
 
 
 
---stage tables checks
---should retrieve NULL
+--stage tables checks (should retrieve NULL)
 SELECT * FROM qa_tests.check_stage_tables ();
 
 
@@ -64,8 +63,7 @@ END $_$;
 
 
 
---QA checks
---should retrieve NULL
+--QA checks (should retrieve NULL)
 select * from QA_TESTS.GET_CHECKS();
 
 
@@ -110,8 +108,18 @@ select * from qa_tests.get_summary (table_name=>'concept_ancestor',pCompareWith=
 
 --Statistics QA checks
 --changes in tables between dev-schema (current) and devv5/prodv5/any other schema
-select * from qa_tests.get_domain_changes(pCompareWith=>'devv5'); --Domain changes
-select * from qa_tests.get_newly_concepts(pCompareWith=>'devv5'); --Newly added concepts grouped by vocabulary_id and domain
-select * from qa_tests.get_standard_concept_changes(pCompareWith=>'devv5'); --Standard concept changes
-select * from qa_tests.get_newly_concepts_standard_concept_status(pCompareWith=>'devv5'); --Newly added concepts and their standard concept status
-select * from qa_tests.get_changes_concept_mapping(pCompareWith=>'devv5'); --Changes of concept mapping status grouped by target domain
+
+--Domain changes
+select * from qa_tests.get_domain_changes(pCompareWith=>'devv5');
+
+--Newly added concepts grouped by vocabulary_id and domain
+select * from qa_tests.get_newly_concepts(pCompareWith=>'devv5');
+
+--Standard concept changes
+select * from qa_tests.get_standard_concept_changes(pCompareWith=>'devv5');
+
+--Newly added concepts and their standard concept status
+select * from qa_tests.get_newly_concepts_standard_concept_status(pCompareWith=>'devv5');
+
+--Changes of concept mapping status grouped by target domain
+select * from qa_tests.get_changes_concept_mapping(pCompareWith=>'devv5');
