@@ -118,3 +118,34 @@ WHERE c.vocabulary_id like 'RxNorm%'
                 AND c.invalid_reason IS NULL
             )
 ;
+
+--hib/flu vaccine wrong mapping
+SELECT *
+FROM devv5.concept c
+
+JOIN devv5.concept_relationship cr
+    ON c.concept_id = cr.concept_id_1
+        AND cr.relationship_id = 'Maps to'
+        AND cr.invalid_reason IS NULL
+
+JOIN devv5.concept c2
+    ON cr.concept_id_2 = c2.concept_id
+    AND c2.standard_concept = 'S'
+    AND c2.domain_id = 'Drug'
+
+WHERE c.standard_concept IS NULL
+    AND (
+        (       c.concept_name ~* 'influenza|Grippe|Orthomyxov|flu$'
+            AND c.concept_name !~* 'Haemophilus|hib|Hemophilus'
+            AND c2.concept_name ~* 'hemophilus|haemophilus| hib|hib |H\.inf|H\. inf'
+            AND c2.concept_name !~* 'virus|tipepidine hibenzate|Influenzinum for homeopathic preparations')
+
+             OR
+
+        (       c2.concept_name ~* 'influenza|Grippe|Orthomyxov|flu$'
+            AND c2.concept_name !~* 'Haemophilus|hib|Hemophilus'
+            AND c.concept_name ~* 'hemophilus|haemophilus| hib|hib |H\.inf|H\. inf'
+            AND c.concept_name !~* 'virus|tipepidine hibenzate|Influenzinum for homeopathic preparations')
+
+        )
+;

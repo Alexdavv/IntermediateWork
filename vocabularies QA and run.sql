@@ -26,6 +26,9 @@ SELECT devv5.FastRecreateSchema(main_schema_name=>'devv5', include_concept_ances
 --SELECT devv5.FastRecreateSchema(main_schema_name=>'devv5', include_synonyms=>true);
 
 
+--schema DDL check
+select * from devv5.qa_ddl();
+
 
 --DRUG input tables checks
 --Errors

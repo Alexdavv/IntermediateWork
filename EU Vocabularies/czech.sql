@@ -6,7 +6,7 @@ create table EU_CZ_MKN10
 )
 ;
 
-select * from EU_CZ_MKN10 limit 1000;
+select * from dev_ypaulenka.EU_CZ_MKN10 limit 1000;
 
 
 --Число концептов в source vocabulary
