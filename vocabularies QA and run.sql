@@ -42,6 +42,13 @@ select * from devv5.qa_ddl();
 --RUN all queries from Vocabulary-v5.0/working/Drug_stage_QA_optional.sql --All queries should retrieve NULL, but see comment inside
 
 
+--Checklist
+--1. Check cyrillic, especially 'с'
+--2. Check in console that every query does something (otherwise, there will be 'completed in'/'0 rows' message)
+--3. Check every IN () statement has WHERE IS NOT NULL limitation
+--4. OR statement inside AND statement
+
+
 
 --stage tables checks (should retrieve NULL)
 SELECT * FROM qa_tests.check_stage_tables ();
