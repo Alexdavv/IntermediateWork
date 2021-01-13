@@ -52,9 +52,12 @@ select * from devv5.qa_ddl();
 
 
 
---06. stage tables checks (should retrieve NULL)
+--06. Stage tables checks (should retrieve NULL)
+--06.1. check_stage_tables function
 SELECT * FROM qa_tests.check_stage_tables ();
 
+--06.2. New Vocabulary QA
+--RUN all queries from Vocabulary-v5.0/working/CreateNewVocabulary_QA.sql --All queries should retrieve NULL
 
 
 --07. GenericUpdate; devv5 - static variable
@@ -71,10 +74,8 @@ END $_$;
 select * from QA_TESTS.GET_CHECKS();
 
 --08.2. DRUG basic tables checks
---RUN all queries from Vocabulary-v5.working/Basic_tables_QA.sql --All queries should retrieve NULL
+--RUN all queries from Vocabulary-v5.working/Basic_tables_QA.sql --All queries should retrieve NULL when consider ONLY new concepts
 
---08.3. New Vocabulary QA
---RUN all queries from Vocabulary-v5.0/working/CreateNewVocabulary_QA.sql --All queries should retrieve NULL
 
 
 
