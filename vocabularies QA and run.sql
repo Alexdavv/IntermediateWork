@@ -25,7 +25,12 @@ SELECT devv5.FastRecreateSchema(main_schema_name=>'devv5', include_concept_ances
 
 
 
---03. SQL script checklist:
+--03.
+--PASTE the load_stage here
+
+
+
+--04. SQL script checklist:
 --1. Check cyrillic symbols, especially 'с'
 --2. Check in console that every query does something (otherwise, there will be 'completed in'/'0 rows' message)
 --3. Check every IN () statement has WHERE IS NOT NULL limitation
@@ -34,33 +39,33 @@ SELECT devv5.FastRecreateSchema(main_schema_name=>'devv5', include_concept_ances
 
 
 
---04. schema DDL check
+--05. schema DDL check
 select * from devv5.qa_ddl();
 
 
 
---05. DRUG input tables checks
---05.1. Errors
+--06. DRUG input tables checks
+--06.1. Errors
 --RUN https://github.com/OHDSI/Vocabulary-v5.0/blob/master/working/input_QA_integratable_E.sql --All queries should retrieve NULL
 
---05.2. Warnings
+--06.2. Warnings
 --RUN https://github.com/OHDSI/Vocabulary-v5.0/blob/master/working/input_QA_integratable_W.sql --All non-NULL results should be reviewed
 
---05.3. Old checks
+--06.3. Old checks
 --RUN all queries from Vocabulary-v5.0/working/drug_stage_tables_QA.sql --All queries should retrieve NULL
 --RUN all queries from Vocabulary-v5.0/working/Drug_stage_QA_optional.sql --All queries should retrieve NULL, but see comment inside
 
 
 
---06. Stage tables checks (should retrieve NULL)
---06.1. check_stage_tables function
+--07. Stage tables checks (should retrieve NULL)
+--07.1. check_stage_tables function
 SELECT * FROM qa_tests.check_stage_tables ();
 
---06.2. New Vocabulary QA
+--07.2. New Vocabulary QA
 --RUN all queries from Vocabulary-v5.0/working/CreateNewVocabulary_QA.sql --All queries should retrieve NULL
 
 
---07. GenericUpdate; devv5 - static variable
+--08. GenericUpdate; devv5 - static variable
 DO $_$
 BEGIN
 	PERFORM devv5.GenericUpdate();
@@ -68,25 +73,25 @@ END $_$;
 
 
 
---08. Basic tables checks
+--09. Basic tables checks
 
---08.1. QA checks (should retrieve NULL)
+--09.1. QA checks (should retrieve NULL)
 select * from QA_TESTS.GET_CHECKS();
 
---08.2. DRUG basic tables checks
+--09.2. DRUG basic tables checks
 --RUN all queries from Vocabulary-v5.working/Basic_tables_QA.sql --All queries should retrieve NULL when consider ONLY new concepts
 
 
 
 
---09. Manual checks after generic
---09.1. RUN and review the results: https://github.com/OHDSI/Vocabulary-v5.0/blob/master/working/manual_checks_after_generic.sql
+--10. Manual checks after generic
+--10.1. RUN and review the results: https://github.com/OHDSI/Vocabulary-v5.0/blob/master/working/manual_checks_after_generic.sql
 
---09.2. Vocabulary-specific manual checks can be found in the manual_work directory in each vocabulary
+--10.2. Vocabulary-specific manual checks can be found in the manual_work directory in each vocabulary
 
 
 
---10. manual ConceptAncestor (needed vocabularies are to be specified)
+--11. manual ConceptAncestor (needed vocabularies are to be specified)
 /* DO $_$
  BEGIN
     PERFORM VOCABULARY_PACK.pManualConceptAncestor(
@@ -96,37 +101,37 @@ select * from QA_TESTS.GET_CHECKS();
 
 
 
---11. get_summary - changes in tables between dev-schema (current) and devv5/prodv5/any other schema
+--12. get_summary - changes in tables between dev-schema (current) and devv5/prodv5/any other schema
 --supported tables: concept, concept_relationship, concept_ancestor
 
---11.1. first clean cache
+--12.1. first clean cache
 select * from qa_tests.purge_cache();
 
---11.2. summary (table to check, schema to compare)
+--12.2. summary (table to check, schema to compare)
 select * from qa_tests.get_summary (table_name=>'concept',pCompareWith=>'devv5');
 
---11.3. summary (table to check, schema to compare)
+--12.3. summary (table to check, schema to compare)
 select * from qa_tests.get_summary (table_name=>'concept_relationship',pCompareWith=>'devv5');
 
---11.4. summary (table to check, schema to compare)
+--12.4. summary (table to check, schema to compare)
 select * from qa_tests.get_summary (table_name=>'concept_ancestor',pCompareWith=>'devv5');
 
 
 
---12. Statistics QA checks
+--13. Statistics QA checks
 --changes in tables between dev-schema (current) and devv5/prodv5/any other schema
 
---12.1. Domain changes
+--13.1. Domain changes
 select * from qa_tests.get_domain_changes(pCompareWith=>'devv5');
 
---12.2. Newly added concepts grouped by vocabulary_id and domain
+--13.2. Newly added concepts grouped by vocabulary_id and domain
 select * from qa_tests.get_newly_concepts(pCompareWith=>'devv5');
 
---12.3. Standard concept changes
+--13.3. Standard concept changes
 select * from qa_tests.get_standard_concept_changes(pCompareWith=>'devv5');
 
---12.4. Newly added concepts and their standard concept status
+--13.4. Newly added concepts and their standard concept status
 select * from qa_tests.get_newly_concepts_standard_concept_status(pCompareWith=>'devv5');
 
---12.5. Changes of concept mapping status grouped by target domain
+--13.5. Changes of concept mapping status grouped by target domain
 select * from qa_tests.get_changes_concept_mapping(pCompareWith=>'devv5');
