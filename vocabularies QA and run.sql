@@ -91,14 +91,20 @@ select * from QA_TESTS.GET_CHECKS();
 
 
 
---11. manual ConceptAncestor (needed vocabularies are to be specified)
+--11. a) manual ConceptAncestor (needed vocabularies are to be specified)
 /* DO $_$
  BEGIN
-    PERFORM VOCABULARY_PACK.pManualConceptAncestor(
+    PERFORM vocabulary_pack.pManualConceptAncestor(
     pVocabularies => 'SNOMED,LOINC'
  );
  END $_$;*/
 
+
+--11. b) full ConceptAncestor
+/*DO $_$
+BEGIN
+	PERFORM vocabulary_pack.pConceptAncestor();
+END $_$;*/
 
 
 --12. get_summary - changes in tables between dev-schema (current) and devv5/prodv5/any other schema
