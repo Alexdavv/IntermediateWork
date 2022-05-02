@@ -64,6 +64,8 @@ SELECT * FROM qa_tests.check_stage_tables ();
 --07.2. New Vocabulary QA
 --RUN all queries from Vocabulary-v5.0/working/CreateNewVocabulary_QA.sql --All queries should retrieve NULL
 
+--07.3. Vocabulary-specific manual checks of the stage tables / load stage script can be found in the manual_work directory in each vocabulary, e.g. https://github.com/OHDSI/Vocabulary-v5.0/blob/master/SNOMED/manual_work/specific_qa/load_stage%20checks.sql
+
 
 --08. GenericUpdate; devv5 - static variable
 DO $_$
@@ -87,7 +89,7 @@ select * from QA_TESTS.GET_CHECKS();
 --10. Manual checks after generic
 --10.1. RUN and review the results: https://github.com/OHDSI/Vocabulary-v5.0/blob/master/working/manual_checks_after_generic.sql
 
---10.2. Vocabulary-specific manual checks can be found in the manual_work directory in each vocabulary
+--10.2. Vocabulary-specific manual checks can be found in the manual_work directory in each vocabulary, e.g. https://github.com/OHDSI/Vocabulary-v5.0/blob/master/SNOMED/manual_work/specific_qa/manual_checks_after_generic.sql
 
 
 
