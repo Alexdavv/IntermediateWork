@@ -122,7 +122,8 @@ select * from qa_tests.get_summary (table_name=>'concept',pCompareWith=>'devv5')
 select * from qa_tests.get_summary (table_name=>'concept_relationship',pCompareWith=>'devv5');
 
 --12.4. summary (table to check, schema to compare)
-select * from qa_tests.get_summary (table_name=>'concept_ancestor',pCompareWith=>'devv5');
+--you would not need it normally because we run concept_ancestor constructor only on the release to Athena step
+--select * from qa_tests.get_summary (table_name=>'concept_ancestor',pCompareWith=>'devv5');
 
 
 
