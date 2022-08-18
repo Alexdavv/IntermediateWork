@@ -18,9 +18,12 @@ show search_path;
 --SELECT devv5.FastRecreateSchema(main_schema_name=>'devv5', include_concept_ancestor=>true);
 
 --02.3 Full recreate, all tables are included
-SELECT devv5.FastRecreateSchema(main_schema_name=>'devv5', include_concept_ancestor=>true, include_deprecated_rels=>true, include_synonyms=>true);
+--SELECT devv5.FastRecreateSchema(main_schema_name=>'devv5', include_concept_ancestor=>true, include_deprecated_rels=>true, include_synonyms=>true);
 
---02.4 Preserve old concept_ancestor, but it will be ignored if the include_concept_ancestor is set to true
+--02.4 Full recreate, concept_ancestor is excluded
+SELECT devv5.FastRecreateSchema(main_schema_name=>'devv5', include_concept_ancestor=>false, include_deprecated_rels=>true, include_synonyms=>true);
+
+--02.5 Preserve old concept_ancestor, but it will be ignored if the include_concept_ancestor is set to true
 --SELECT devv5.FastRecreateSchema(main_schema_name=>'devv5', drop_concept_ancestor=>false);
 
 
