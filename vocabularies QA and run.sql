@@ -116,7 +116,8 @@ END $_$;*/
 --supported tables: concept, concept_relationship, concept_ancestor
 
 --12.1. first clean cache
-select * from qa_tests.purge_cache();
+--NOT needed anymore (because get_summary was refactored)
+--select * from qa_tests.purge_cache();
 
 --12.2. summary (table to check, schema to compare)
 select * from qa_tests.get_summary (table_name=>'concept',pCompareWith=>'devv5');
